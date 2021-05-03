@@ -45,13 +45,13 @@ CREATE TABLE [UserProfile] (
 GO
 
 CREATE TABLE [UserRole] (
-  [id] int PRIMARY KEY,
+  [id] int PRIMARY KEY IDENTITY,
   [name] nvarchar(255) NOT NULL
 )
 GO
 
 CREATE TABLE [Attendee] (
-  [id] int PRIMARY KEY,
+  [id] int PRIMARY KEY IDENTITY,
   [firstName] nvarchar(255) NOT NULL,
   [lastName] nvarchar(255) NOT NULL,
   [groupId] int NOT NULL,
@@ -61,15 +61,15 @@ CREATE TABLE [Attendee] (
 GO
 
 CREATE TABLE [Group] (
-  [id] int PRIMARY KEY,
+  [id] int PRIMARY KEY IDENTITY,
   [name] nvarchar(255) NOT NULL
 )
 GO
 
 CREATE TABLE [EmergencyContact] (
-  [id] int PRIMARY KEY,
+  [id] int PRIMARY KEY IDENTITY,
   [firstName] nvarchar(255) NOT NULL,
-  [lastName] varchar NOT NULL,
+  [lastName] nvarchar(255) NOT NULL,
   [address] nvarchar(255) NOT NULL,
   [phoneNumber] nvarchar(255) NOT NULL,
   [relaionship] nvarchar(255) NOT NULL
@@ -77,40 +77,40 @@ CREATE TABLE [EmergencyContact] (
 GO
 
 CREATE TABLE [Allergy] (
-  [id] int PRIMARY KEY,
+  [id] int PRIMARY KEY IDENTITY,
   [name] nvarchar(255) NOT NULL
 )
 GO
 
-CREATE TABLE [EmployeeAllergy] (
-  [id] int PRIMARY KEY,
+CREATE TABLE [UserProfileAllergy] (
+  [id] int PRIMARY KEY IDENTITY,
   [userProfileId] int NOT NULL,
   [allergyId] int NOT NULL
 )
 GO
 
 CREATE TABLE [AttendeeAllergy] (
-  [id] int PRIMARY KEY,
+  [id] int PRIMARY KEY IDENTITY,
   [attendeeId] int NOT NULL,
   [allergyId] int NOT NULL
 )
 GO
 
 CREATE TABLE [Berth] (
-  [id] int PRIMARY KEY,
+  [id] int PRIMARY KEY IDENTITY,
   [name] nvarchar(255) NOT NULL
 )
 GO
 
 CREATE TABLE [UserProfileBerth] (
-  [id] int PRIMARY KEY,
+  [id] int PRIMARY KEY IDENTITY,
   [berthId] int NOT NULL,
   [userProfileId] int NOT NULL
 )
 GO
 
 CREATE TABLE [Comment] (
-  [id] int PRIMARY KEY,
+  [id] int PRIMARY KEY IDENTITY,
   [content] nvarchar(255) NOT NULL,
   [dateCreated] datetime NOT NULL,
   [userProfileId] int NOT NULL
@@ -118,7 +118,7 @@ CREATE TABLE [Comment] (
 GO
 
 CREATE TABLE [AttendeeNote] (
-  [id] int PRIMARY KEY,
+  [id] int PRIMARY KEY IDENTITY,
   [attendeeId] int NOT NULL,
   [content] nvarchar(255) NOT NULL,
   [dateEdited] datetime NOT NULL
@@ -155,10 +155,10 @@ GO
 ALTER TABLE [Attendee] ADD FOREIGN KEY ([berthId]) REFERENCES [Berth] ([id])
 GO
 
-ALTER TABLE [EmployeeAllergy] ADD FOREIGN KEY ([userProfileId]) REFERENCES [UserProfile] ([id])
+ALTER TABLE [UserProfileAllergy] ADD FOREIGN KEY ([userProfileId]) REFERENCES [UserProfile] ([id])
 GO
 
-ALTER TABLE [EmployeeAllergy] ADD FOREIGN KEY ([allergyId]) REFERENCES [Allergy] ([id])
+ALTER TABLE [UserProfileAllergy] ADD FOREIGN KEY ([allergyId]) REFERENCES [Allergy] ([id])
 GO
 
 ALTER TABLE [AttendeeAllergy] ADD FOREIGN KEY ([attendeeId]) REFERENCES [Attendee] ([id])

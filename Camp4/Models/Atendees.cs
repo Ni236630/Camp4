@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Camp4.Models
 {
-    public class Atendees
+    public class Attendee
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
