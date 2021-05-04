@@ -26,6 +26,7 @@ namespace Camp4.Controllers
         {
             return Ok(_groupRepository.GetAll());
         }
+
         [HttpPost]
         public IActionResult AddGroup(Group group)
         {

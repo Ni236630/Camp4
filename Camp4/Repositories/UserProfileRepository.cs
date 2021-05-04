@@ -85,30 +85,15 @@ namespace Camp4.Repositories
                     ";
 
                     DbUtils.AddParameter(cmd, "@firebaseId", firebaseId);
-
                     UserProfile userProfile = null;
 
                     var reader = cmd.ExecuteReader();
                     if (reader.Read())
                     {
-                          
-                        userProfile.FirebaseId = reader.GetString(reader.GetOrdinal("firebaseId"));
-                        userProfile.BerthId = reader.GetInt32(reader.GetOrdinal("berthId"));
-                        userProfile.GroupId = reader.GetInt32(reader.GetOrdinal("groupId"));
-                        userProfile.FirstName = reader.GetString(reader.GetOrdinal("firstName"));
-                        userProfile.LastName = reader.GetString(reader.GetOrdinal("lastName"));
-                        userProfile.Email = reader.GetString(reader.GetOrdinal("email"));
-                        userProfile.UserRole = reader.GetInt32(reader.GetOrdinal("userRoleId"));
-                        //DbUtils.AddParameter(cmd, "@FirstName", userProfile.FirstName);
-                        //DbUtils.AddParameter(cmd, "@LastName", userProfile.LastName);
-                        //DbUtils.AddParameter(cmd, "@Email", userProfile.Email);
-                        //DbUtils.AddParameter(cmd, "@DateCreated", userProfile.DateCreated);
-                        //DbUtils.AddParameter(cmd, "@GroupId", userProfile.GroupId);
-                        //DbUtils.AddParameter(cmd, "@UserRole", userProfile.UserRole);
-                        //DbUtils.AddParameter(cmd, "@BerthId", userProfile.BerthId);
-                        //DbUtils.AddParameter(cmd, "@EmergencyContactId", userProfile.EmergencyContactId);
+                        userProfile = NewUserProfileFromDb(reader);
                     }
                     reader.Close();
+
                     return userProfile;
                 }
 

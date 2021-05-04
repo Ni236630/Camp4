@@ -1,11 +1,11 @@
 import React, {useContext, useEffect} from 'react';
 import {  UserProfileContext   } from "../../providers/UserProfileProvider";
+import { UserProfileCard } from './UserProfileCard';
 
 
 const UserList = () => {
 
     const {users, getAll} = useContext(UserProfileContext);
-    console.log(users);
 
     useEffect(() => {
         getAll();
@@ -13,9 +13,9 @@ const UserList = () => {
 
 
     return(
-        <div>
+        <div className="container">
             {users.map((u)=> {
-               return <p>{u.firstName}</p> 
+               return <UserProfileCard key={u.id} userProfile={u}/>
             })}
         </div>
     )

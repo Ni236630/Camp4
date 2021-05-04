@@ -1,10 +1,11 @@
-import React, { useState,  createContext } from "react";
-
+import React, { useState,  createContext, useContext } from "react";
+import {UserProfileContext} from './UserProfileProvider'
 export const GroupContext = createContext();
 
 export function GroupProvider(props) {
-    const apiUrl = "/api/userprofile";
+    const apiUrl = "/api/group";
 
+    const {getToken} = useContext(UserProfileContext);
     const [groups, setGroups] = useState([]);
 
 

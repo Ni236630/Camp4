@@ -24,18 +24,13 @@ namespace Camp4.Repositories
                     ";
                     var reader = cmd.ExecuteReader();
                     var groups = new List<Group>();
-                    Group group = new Group()
-                    {
-                        Id = 0,
-                        Name = ""
-                    };
+                    Group group = new Group();
 
                     while (reader.Read())
                     {
-                        group.Id = DbUtils.GetInt(reader, "Id");
-                        group.Name = DbUtils.GetString(reader, "Name");
-                        groups.Add(group);
-                    }
+
+                        groups.Add(newGroupFromDb(reader));
+                    };
 
                     reader.Close();
                     return groups;
@@ -60,6 +55,14 @@ namespace Camp4.Repositories
                     group.Id = (int)cmd.ExecuteScalar();
                 }
             }
+        }
+        private Group newGroupFromDb(SqlDataReader reader)
+        {
+            return new Group()
+            {
+                Id = DbUtils.GetInt(reader, "Id"),
+                Name = DbUtils.GetString(reader, "Name")
+            };
         }
 
     }
