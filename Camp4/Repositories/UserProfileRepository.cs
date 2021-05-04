@@ -19,7 +19,7 @@ namespace Camp4.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT up.Id, up.FirstName, up.LastName, up.Email, up.DateCreated, up.UserRoleId, up.GroupId, up.BerthId, up.EmergencyContactId, g.[name]
+                        SELECT up.Id, up.FirstName, up.firebaseId, up.LastName, up.Email, up.DateCreated, up.UserRoleId, up.GroupId, up.BerthId, up.EmergencyContactId, g.[name]
                         FROM UserProfile up
                         LEFT JOIN [Group] g ON g.id = up.GroupId
                         ";
@@ -68,7 +68,7 @@ namespace Camp4.Repositories
             }
         }
 
-        public UserProfile GetByFirebaseUserId(string FirebaseId)
+        public UserProfile GetByFirebaseUserId(string firebaseId)
         {
             using (var conn = Connection)
             {
@@ -77,28 +77,44 @@ namespace Camp4.Repositories
                 {
                  
                     cmd.CommandText = @"
-                        SELECT up.Id, up.FirstName, up.LastName, up.Email, up.DateCreated, up.UserRoleId, up.GroupId, up.BerthId, up.EmergencyContactId, g.[name]
+                        SELECT up.Id, up.firstName, up.lastName, up.firebaseId, up.email, up.dateCreated, up.userRoleId, up.groupId, up.berthId, up.emergencyContactId, g.[name]
                         FROM UserProfile up
                         LEFT JOIN [Group] g ON g.id = up.GroupId
-                        WHERE FirebaseId = @FirebaseId
+                        WHERE up.firebaseId = @firebaseId
                     
                     ";
 
-                    DbUtils.AddParameter(cmd, "@FirebaseId", FirebaseId);
+                    DbUtils.AddParameter(cmd, "@firebaseId", firebaseId);
 
                     UserProfile userProfile = null;
 
                     var reader = cmd.ExecuteReader();
                     if (reader.Read())
                     {
-                        userProfile = NewUserProfileFromDb(reader);
+                          
+                        userProfile.FirebaseId = reader.GetString(reader.GetOrdinal("firebaseId"));
+                        userProfile.BerthId = reader.GetInt32(reader.GetOrdinal("berthId"));
+                        userProfile.GroupId = reader.GetInt32(reader.GetOrdinal("groupId"));
+                        userProfile.FirstName = reader.GetString(reader.GetOrdinal("firstName"));
+                        userProfile.LastName = reader.GetString(reader.GetOrdinal("lastName"));
+                        userProfile.Email = reader.GetString(reader.GetOrdinal("email"));
+                        userProfile.UserRole = reader.GetInt32(reader.GetOrdinal("userRoleId"));
+                        //DbUtils.AddParameter(cmd, "@FirstName", userProfile.FirstName);
+                        //DbUtils.AddParameter(cmd, "@LastName", userProfile.LastName);
+                        //DbUtils.AddParameter(cmd, "@Email", userProfile.Email);
+                        //DbUtils.AddParameter(cmd, "@DateCreated", userProfile.DateCreated);
+                        //DbUtils.AddParameter(cmd, "@GroupId", userProfile.GroupId);
+                        //DbUtils.AddParameter(cmd, "@UserRole", userProfile.UserRole);
+                        //DbUtils.AddParameter(cmd, "@BerthId", userProfile.BerthId);
+                        //DbUtils.AddParameter(cmd, "@EmergencyContactId", userProfile.EmergencyContactId);
                     }
                     reader.Close();
-
                     return userProfile;
                 }
+
             }
         }
+    
 
         public void Add(UserProfile userProfile)
         {
@@ -110,9 +126,9 @@ namespace Camp4.Repositories
                     cmd.CommandText = @"INSERT INTO UserProfile (FirebaseId, FirstName, LastName, 
                                                                  Email, DateCreated, GroupId, UserRoleId, BerthId, EmergencyContactId)
                                         OUTPUT INSERTED.ID
-                                        VALUES (@FirebaseUserId, @FirstName, @LastName, 
+                                        VALUES (@FirebaseId, @FirstName, @LastName, 
                                                 @Email, @DateCreated, @GroupId, @UserTypeId, @BerthId, @EmergencyContactId)";
-                    DbUtils.AddParameter(cmd, "@FirebaseUserId", userProfile.FirebaseId);
+                    DbUtils.AddParameter(cmd, "@FirebaseId", userProfile.FirebaseId);
                     DbUtils.AddParameter(cmd, "@FirstName", userProfile.FirstName);
                     DbUtils.AddParameter(cmd, "@LastName", userProfile.LastName);
                     DbUtils.AddParameter(cmd, "@Email", userProfile.Email);
@@ -155,15 +171,14 @@ namespace Camp4.Repositories
             return new UserProfile()
             {
                 Id = DbUtils.GetInt(reader, "Id"),
-                FirebaseId = DbUtils.GetString(reader, "FirebaseId"),
-                FirstName = DbUtils.GetString(reader, "FirstName"),
-                LastName = DbUtils.GetString(reader, "LastName"),
-                Email = DbUtils.GetString(reader, "Email"),
-                DateCreated = DbUtils.GetDateTime(reader, "DateCreated"),
-                UserRole = DbUtils.GetInt(reader, "UserRole"),
-                EmergencyContactId = DbUtils.GetInt(reader, "EmergencyContactId"),
-                BerthId = DbUtils.GetInt(reader, "BerthId"),
-                GroupId = DbUtils.GetInt(reader, "GroupId"),
+                FirebaseId = DbUtils.GetString(reader, "firebaseId"),
+                FirstName = DbUtils.GetString(reader, "firstName"),
+                LastName = DbUtils.GetString(reader, "lastName"),
+                Email = DbUtils.GetString(reader, "email"),
+                UserRole = DbUtils.GetInt(reader, "userRoleId"),
+                EmergencyContactId = DbUtils.GetInt(reader, "emergencyContactId"),
+                BerthId = DbUtils.GetInt(reader, "berthId"),
+                GroupId = DbUtils.GetInt(reader, "groupId"),
                 //UserType = new UserType()
                 //{
                 //    Id = DbUtils.GetInt(reader, "UserTypeId"),

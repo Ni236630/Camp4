@@ -33,7 +33,8 @@ namespace Camp4.Controllers
             var user = _userProfileRepository.GetByUserProfileId(id);
             return Ok(user);
         }
-        [HttpGet("{firebaseUserId}")]
+
+        [HttpGet("firebase/{firebaseUserId}")]
         public IActionResult GetUserProfile(string firebaseUserId)
         {
             return Ok(_userProfileRepository.GetByFirebaseUserId(firebaseUserId));
