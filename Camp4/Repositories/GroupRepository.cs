@@ -38,6 +38,8 @@ namespace Camp4.Repositories
             }
         }
 
+   
+
         public void Add(Group group)
         {
             using (var conn = Connection)

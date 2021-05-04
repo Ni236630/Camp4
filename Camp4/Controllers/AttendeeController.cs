@@ -26,6 +26,12 @@ namespace Camp4.Controllers
         {
             return Ok(_attendeeRepository.GetAll());
         }
+
+        [HttpGet("group/{id}")]
+        public IActionResult getByGroup(int id)
+        {
+            return Ok(_attendeeRepository.GetByGroup(id));
+        }
         [HttpPost]
         public IActionResult AddGroup(Attendee attendee)
         {

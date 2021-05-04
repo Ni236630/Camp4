@@ -1,19 +1,18 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {Row, Col, Button} from 'reactstrap'
+import { GroupContext } from '../../providers/GroupProvider';
 import GroupList from './GroupList';
 
 
 
 const GroupOverview = () => {
-    const userProfile = sessionStorage.getItem("userProfile");
-    const usableUser = JSON.parse(userProfile)
-    const [displayForm, setDisplayForm] = useState(false)
+    const {displayForm} = useContext(GroupContext);
 
 
     
     return (
         <>
-           <Row><Button className="ml-4 mt-2" onClick={()=>{setDisplayForm(true)}}> New Group </Button></Row>
+           <Row><Button className="ml-4 mt-2" > New Group </Button></Row>
            <Row className="mt-auto"> 
                <Col>
                     <h1 className="text-center"> Groups</h1>
@@ -21,7 +20,7 @@ const GroupOverview = () => {
                </Col>
                <Col>
                {
-                   displayForm? <p>I am a form in the future </p>  : <p>click me</p>
+                   displayForm? <p>detail in the future </p>  : <p>click me</p>
                }
                </Col>
                <Col>

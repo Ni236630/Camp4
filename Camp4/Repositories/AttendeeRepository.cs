@@ -23,13 +23,39 @@ namespace Camp4.Repositories
                         FROM Attendee
                         ";
                     var reader = cmd.ExecuteReader();
-                    var userProfiles = new List<Attendee>();
+                    var attendees = new List<Attendee>();
                     while (reader.Read())
                     {
-                        userProfiles.Add(NewAttendeeFromDb(reader));
+                        attendees.Add(NewAttendeeFromDb(reader));
                     }
                     reader.Close();
-                    return userProfiles;
+                    return attendees;
+                }
+            }
+        }
+
+        public List<Attendee> GetByGroup(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        SELECT Id, FirstName, LastName, GroupId, BerthId, EmergencyContactId
+                        FROM Attendee
+                        WHERE GroupId = @id
+                        ";
+
+                    DbUtils.AddParameter(cmd, "@id", id);
+                    var reader = cmd.ExecuteReader();
+                    var attendees = new List<Attendee>();
+                    while (reader.Read())
+                    {
+                        attendees.Add(NewAttendeeFromDb(reader));
+                    }
+                    reader.Close();
+                    return attendees;
                 }
             }
         }
