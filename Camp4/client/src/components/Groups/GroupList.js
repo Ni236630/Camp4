@@ -14,7 +14,7 @@ const GroupList = () => {
     return(
         <div>
          {
-             groups.filter((groupa)=> groupa.id != 1).map((g)=>{
+             groups.filter((groupa)=> groupa.id !== 1).map((g)=>{
                  return <GroupCard key={g.id} group={g} />
              })
          }

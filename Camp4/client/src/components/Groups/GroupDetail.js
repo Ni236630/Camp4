@@ -1,25 +1,32 @@
-import { Button } from 'reactstrap';
 import React, { useEffect, useContext } from 'react';
-import { useParams } from 'react-router-dom';
 import { GroupContext } from '../../providers/GroupProvider';
-import { AttendeeCard } from '../Attendees/AttendeeCard';
 
-export const GroupDetail = (params) => {
-    const { id } = useParams();
+
+export const GroupDetail = ({groupId}) => {
+ 
     
-    const {getAttendeesByGroup, groupAttendees} = useContext(GroupContext);
+    
+    const {getGroupById, group} = useContext(GroupContext)
     
 
     useEffect(() => {
-        getAttendeesByGroup(id)
+        getGroupById(groupId)
+       
+      
+       
     }, []);
 
     
     return (
         <div className="container">
-          {groupAttendees.map((a)=>{
-              <AttendeeCard key={a.id} attendee={a}/>
-          })}
+           
+            <h1>{group.name}</h1>
+            {group.userProfile === null? <p>No leader has been assigned</p> : <p>Group Leader: {group.userProfile.firstName} {group.userProfile.lastName}</p>}
+            group.attendees? <ul>{group.attendees.map((a)=>{
+             <li>{a.firstName} {a.lastName}</li>
+          })} </ul>
+          :
+          <p>There is no one in this group</p>
         </div>
     )
 };

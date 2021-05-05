@@ -7,7 +7,8 @@ export function GroupProvider(props) {
 
     const {getToken} = useContext(UserProfileContext);
     const [groups, setGroups] = useState([]);
-    const [displayForm, setDisplayForm] = useState(false)
+    const [displayGroupId, setDisplayGroupId] = useState(false)
+    const [group, setGroup] = useState({});
 
 
     const getAllGroups = () => {
@@ -32,6 +33,7 @@ export function GroupProvider(props) {
             }
         })
         .then(res => res.json())
+        .then(setGroup)
     )
     }
 
@@ -42,7 +44,7 @@ export function GroupProvider(props) {
 
 
     return (
-        <GroupContext.Provider value={{getAllGroups, groups, displayForm, setDisplayForm}}>
+        <GroupContext.Provider value={{getAllGroups, groups, group, displayGroupId, setDisplayGroupId, getGroupById}}>
             {
                 props.children
             }

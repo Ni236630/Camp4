@@ -1,6 +1,7 @@
 import React, {useState, useContext, createContext} from 'react';
+import {UserProfileContext} from '../providers/UserProfileProvider'
 
-const AttendeeContext = createContext();
+export const AttendeeContext = createContext();
 
 export function AttendeeProvider(props) {
     const apiUrl = "/api/attendee";
@@ -22,6 +23,7 @@ export function AttendeeProvider(props) {
     }
 
     const getAttendeesByGroup = (groupId) => {
+        
         return getToken().then((token) =>
         fetch(`${apiUrl}/group/${groupId}`, {
           method: "GET",

@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, { useContext} from 'react';
 import {Row, Col, Button} from 'reactstrap'
 import { GroupContext } from '../../providers/GroupProvider';
 import { GroupDetail } from './GroupDetail';
@@ -7,7 +7,7 @@ import GroupList from './GroupList';
 
 
 const GroupOverview = () => {
-    const {displayForm} = useContext(GroupContext);
+    const {displayGroupId} = useContext(GroupContext);
 
 
     
@@ -21,7 +21,7 @@ const GroupOverview = () => {
                </Col>
                <Col>
                {
-                   displayForm? <p><GroupDetail /></p>  : <p>click me</p>
+                   displayGroupId? <GroupDetail key={displayGroupId} groupId={displayGroupId}/>   : <p>click me</p>
                }
                </Col>
                <Col>

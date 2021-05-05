@@ -19,8 +19,11 @@ namespace Camp4.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        Select Id, Name
-                        FROM [Group]
+                        Select g.Id, g.[Name], up.firstName, up.lastName
+                        FROM [Group] g
+                        LEFT JOIN UserProfile up on up.groupId = g.Id
+                        
+                        
                     ";
                     var reader = cmd.ExecuteReader();
                     var groups = new List<Group>();
@@ -46,14 +49,34 @@ namespace Camp4.Repositories
                 using(var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT Id, Name
-                        FROM [Group]
-                        WHERE Id = @id
+                        Select g.Id, g.[Name], up.firstName, up.lastName, a.firstName, a.lastName
+                        FROM [Group] g
+                        LEFT JOIN UserProfile up on up.groupId = g.Id
+                        LEFT JOIN Attendee a on a.groupId = g.Id
+                        WHERE g.Id = @id
                     ";
                     DbUtils.AddParameter(cmd, "@id", id);
                     Group group = null;
 
                     var reader = cmd.ExecuteReader();
+                    while(reader.Read())
+                    {
+                        if (group == null)
+                        {
+                            group = newGroupFromDb(reader);
+                            group.attendees = new List<Attendee>();
+                        }
+                        if (DbUtils.IsNotDbNull(reader, "a.Id"))
+                        {
+                            group.attendees.Add(new Attendee()
+                            {
+                                Id = DbUtils.GetInt(reader, "a.Id"),
+                                FirstName = DbUtils.GetString(reader, "a.firstName"),
+                                LastName = DbUtils.GetString(reader, "a.lastName"),
+                               
+                            });
+                        }
+                    }
                     if(reader.Read())
                     {
                         group = newGroupFromDb(reader);
@@ -90,7 +113,13 @@ namespace Camp4.Repositories
             return new Group()
             {
                 Id = DbUtils.GetInt(reader, "Id"),
-                Name = DbUtils.GetString(reader, "Name")
+                Name = DbUtils.GetString(reader, "Name"),
+                UserProfile = new UserProfile() 
+                {
+                    FirstName = DbUtils.GetString(reader, "firstName"),
+                    LastName = DbUtils.GetString(reader, "lastName")
+                }
+                
             };
         }
 

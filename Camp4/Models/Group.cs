@@ -9,6 +9,9 @@ namespace Camp4.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public  UserProfile UserProfile { get; set; }
+
+        public List<Attendee> attendees { get; set; }
 
     }
 }
