@@ -1,4 +1,5 @@
 import React, { useContext} from 'react';
+import { useHistory } from 'react-router';
 import {Row, Col, Button} from 'reactstrap'
 import { GroupContext } from '../../providers/GroupProvider';
 import UnassignedAttendeeList from '../Attendees/UnassignedAttendees';
@@ -12,11 +13,11 @@ import GroupList from './GroupList';
 const GroupOverview = () => {
     const {displayGroupId} = useContext(GroupContext);
 
-
+    const history = useHistory();
     
     return (
         <>
-           <Row><Button className="ml-4 mt-2" > New Group </Button></Row>
+           <Row><Button className="ml-4 mt-2" onClick={() => {history.push("/newGroup")}}> New Group </Button></Row>
            <Row className="mt-auto"> 
                <Col>
                     <h1 className="text-center"> Groups</h1>

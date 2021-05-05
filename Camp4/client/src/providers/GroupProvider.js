@@ -39,6 +39,18 @@ export function GroupProvider(props) {
     )
     }
 
+    const addGroup = (group) => {
+        return getToken().then((token) => 
+        fetch(`${apiUrl}`,{
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(group)
+        })).then(res => res.json())
+    }
+
 
 
 
@@ -46,7 +58,7 @@ export function GroupProvider(props) {
 
 
     return (
-        <GroupContext.Provider value={{getAllGroups, groups, group, displayGroupId, setDisplayGroupId, getGroupById}}>
+        <GroupContext.Provider value={{getAllGroups, groups, group, displayGroupId, setDisplayGroupId, getGroupById, addGroup}}>
             {
                 props.children
             }

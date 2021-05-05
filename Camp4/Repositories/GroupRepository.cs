@@ -98,11 +98,11 @@ namespace Camp4.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        INSERT INTO UserProfile (Name)
+                        INSERT INTO [Group] ([name])
                         OUTPUT INSERTED.ID
-                        VALUES (@Name)";
+                        VALUES (@name)";
 
-                    DbUtils.AddParameter(cmd, "@Name", group.Name);
+                    DbUtils.AddParameter(cmd, "@name", group.Name);
 
                     group.Id = (int)cmd.ExecuteScalar();
                 }
