@@ -1,6 +1,9 @@
 import React, { useContext} from 'react';
 import {Row, Col, Button} from 'reactstrap'
 import { GroupContext } from '../../providers/GroupProvider';
+import UnassignedAttendeeList from '../Attendees/UnassignedAttendees';
+
+
 import { GroupDetail } from './GroupDetail';
 import GroupList from './GroupList';
 
@@ -21,12 +24,14 @@ const GroupOverview = () => {
                </Col>
                <Col>
                {
-                   displayGroupId? <GroupDetail key={displayGroupId} groupId={displayGroupId}/>   : <p>click me</p>
+                   displayGroupId? <GroupDetail key={displayGroupId} groupId={displayGroupId}/>   
+                   :
+                    <h1>Select a group for details</h1>
                }
                </Col>
                <Col>
-               <h1 className="text-center"> Empty Groups</h1>
-
+                    <h1 className="text-center">Unassigned Persons</h1>
+                    <UnassignedAttendeeList />
                </Col>
            </Row>
         </>

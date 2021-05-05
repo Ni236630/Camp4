@@ -1,8 +1,8 @@
 import React,   { useContext, useEffect } from "react";
 import { AttendeeContext } from '../../providers/AttendeeProvider'
-import AttendeeCard from './AttendeeCard'
 
-const AttendeeList = () => {
+
+const UnassignedAttendeeList = () => {
 
     const {attendees, getAllAttendees} = useContext(AttendeeContext);
 
@@ -11,12 +11,13 @@ const AttendeeList = () => {
     },[])
 
     return(
-        <div>
-         {
-             attendees.map((a)=>{
-                 return <AttendeeCard key={a.id} attendee={a} />
+        <div className="ml-4">
+           
+         <ul>{
+             attendees.filter((attendee) => attendee.groupId === 1).map((a)=>{
+                 return <li key={a.id}>{a.firstName} {a.lastName}</li>  
              })
-         }
+         }</ul>
         </div>
 
     )
@@ -24,4 +25,4 @@ const AttendeeList = () => {
 
 }
 
-export default AttendeeList;
+export default UnassignedAttendeeList;

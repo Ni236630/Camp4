@@ -49,7 +49,7 @@ namespace Camp4.Repositories
                 using(var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        Select g.Id, g.[Name], up.firstName, up.lastName, a.firstName, a.lastName
+                        Select g.Id, g.[Name], up.firstName, up.lastName, a.firstName AS attendeeFirst, a.lastName AS attendeeLast, a.Id AS attendeeId
                         FROM [Group] g
                         LEFT JOIN UserProfile up on up.groupId = g.Id
                         LEFT JOIN Attendee a on a.groupId = g.Id
@@ -66,13 +66,13 @@ namespace Camp4.Repositories
                             group = newGroupFromDb(reader);
                             group.attendees = new List<Attendee>();
                         }
-                        if (DbUtils.IsNotDbNull(reader, "a.Id"))
+                        if (DbUtils.IsNotDbNull(reader, "attendeeId"))
                         {
                             group.attendees.Add(new Attendee()
                             {
-                                Id = DbUtils.GetInt(reader, "a.Id"),
-                                FirstName = DbUtils.GetString(reader, "a.firstName"),
-                                LastName = DbUtils.GetString(reader, "a.lastName"),
+                                Id = DbUtils.GetInt(reader, "attendeeId"),
+                                FirstName = DbUtils.GetString(reader, "attendeeFirst"),
+                                LastName = DbUtils.GetString(reader, "attendeeLast"),
                                
                             });
                         }

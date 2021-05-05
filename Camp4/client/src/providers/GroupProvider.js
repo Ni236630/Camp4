@@ -8,7 +8,9 @@ export function GroupProvider(props) {
     const {getToken} = useContext(UserProfileContext);
     const [groups, setGroups] = useState([]);
     const [displayGroupId, setDisplayGroupId] = useState(false)
-    const [group, setGroup] = useState({});
+    const [group, setGroup] = useState({
+        attendees: []
+    });
 
 
     const getAllGroups = () => {

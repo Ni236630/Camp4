@@ -3,7 +3,7 @@ import { Card, CardBody } from 'reactstrap';
 
 
 
-export const AttendeeCard = ({ attendee }) => {
+ const AttendeeCard = ({ attendee }) => {
     
 
 
@@ -15,3 +15,5 @@ export const AttendeeCard = ({ attendee }) => {
         </Card>
     );
 };
+
+export default AttendeeCard;

@@ -5,6 +5,7 @@ import { UserProfileProvider } from "./providers/UserProfileProvider";
 import Header from "./components/Header";
 import ApplicationViews from "./components/ApplicationViews";
 import { GroupProvider } from './providers/GroupProvider';
+import { AttendeeProvider } from './providers/AttendeeProvider';
 
 
 function App() {
@@ -12,8 +13,10 @@ function App() {
     <Router>
       <UserProfileProvider>
         <GroupProvider>
+          <AttendeeProvider>
           <Header />
-          <ApplicationViews />    
+          <ApplicationViews />   
+          </AttendeeProvider> 
         </GroupProvider>
       </UserProfileProvider>
     </Router>
