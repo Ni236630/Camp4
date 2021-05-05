@@ -38,6 +38,33 @@ namespace Camp4.Repositories
             }
         }
 
+        public Group getGroupById(int id)
+        {
+            using( var conn = Connection)
+            {
+                conn.Open();
+                using(var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        SELECT Id, Name
+                        FROM [Group]
+                        WHERE Id = @id
+                    ";
+                    DbUtils.AddParameter(cmd, "@id", id);
+                    Group group = null;
+
+                    var reader = cmd.ExecuteReader();
+                    if(reader.Read())
+                    {
+                        group = newGroupFromDb(reader);
+                    }
+                    reader.Close();
+                    return group;
+
+                }
+            }
+        }
+
    
 
         public void Add(Group group)

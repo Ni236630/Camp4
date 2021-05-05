@@ -7,5 +7,6 @@ namespace Camp4.Repositories
     {
         void Add(Group group);
         List<Group> GetAll();
+        Group getGroupById(int id);
     }
 }

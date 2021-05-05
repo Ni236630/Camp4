@@ -23,6 +23,18 @@ export function GroupProvider(props) {
         )
     }
 
+    const getGroupById = (id) => {
+        return getToken().then((token) => 
+        fetch(`${apiUrl}/${id}`,{
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then(res => res.json())
+    )
+    }
+
 
 
 

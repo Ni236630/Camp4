@@ -13,7 +13,7 @@ export const GroupCard = ({ group }) => {
 
     return (
         <Card className="m-4">
-            <CardBody>
+            <CardBody id={group.id}>
                 <h5 className="text-center">{group.name}</h5>
             <Link onClick={()=>{setDisplayForm(true)}}>
                 <p className="text-center">to see details</p>

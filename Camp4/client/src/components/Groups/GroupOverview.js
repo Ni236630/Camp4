@@ -1,6 +1,7 @@
 import React, {useState, useContext} from 'react';
 import {Row, Col, Button} from 'reactstrap'
 import { GroupContext } from '../../providers/GroupProvider';
+import { GroupDetail } from './GroupDetail';
 import GroupList from './GroupList';
 
 
@@ -20,7 +21,7 @@ const GroupOverview = () => {
                </Col>
                <Col>
                {
-                   displayForm? <p>detail in the future </p>  : <p>click me</p>
+                   displayForm? <p><GroupDetail /></p>  : <p>click me</p>
                }
                </Col>
                <Col>
