@@ -4,23 +4,44 @@ import { Button,  Input, Card, CardBody, Row, Col } from 'reactstrap';
 import { GroupContext } from '../../providers/GroupProvider';
 import FilteredMultiSelect from 'react-filtered-multiselect'
 import { UserProfileContext } from '../../providers/UserProfileProvider';
+import { AttendeeContext } from '../../providers/AttendeeProvider';
 
 const NewGroup = () => {
 
     const history = useHistory();
-    const { addGroup, } = useContext(GroupContext);
-    const { users, getAll } = useContext(UserProfileContext);
+    const { addGroup } = useContext(GroupContext);
+    const { users, getAll, getUserProfileById } = useContext(UserProfileContext);
+    const { attendees, getAllAttendees } = useContext(AttendeeContext);
 
     const [ GrouptoCreate, setGroupToCreate] = useState({
       
         name: ""
     });
     const [groupLeader, setGroupLeader] = useState({});
+    const [selectedAttendees, setSelectedAttendees] = useState([])
    
+   const handleDeselect = (attendee) => {
+    
+    let updatedArrayOfMoves = [...selectedAttendees]
+        updatedArrayOfMoves = updatedArrayOfMoves.filter(m => m.id !== attendee.id)
+        setSelectedAttendees(updatedArrayOfMoves)
+
+      }
+    
+     const  handleSelectionChange = (selectedAttendees) => {
+        setSelectedAttendees(selectedAttendees)
+       
+        
+      }
+
 
     useEffect(()=>{
         getAll()
+        .then(getAllAttendees)
     },[])
+
+      
+  
 
     const handleControlledInputChange = (event) => {
         const newGroup = { ...GrouptoCreate };
@@ -31,28 +52,30 @@ const NewGroup = () => {
 // figure out how to get the object here!
 
     const GroupLeaderInputChange = (event) => {
-        
-        setGroupLeader(event.target.value);
-    }
-
+        if (event.target.value !== 0 )
+        {
+         
+            getUserProfileById(event.target.value)
+            .then((res) => {
+                  setGroupLeader(res);
+                  console.log(groupLeader)
+            })
+           
+        } 
       
-
-    const reset = () => {
-       
-        setGroupToCreate({
-            name:""
-        })
     }
+
+ 
 
     return (
-        <>
+        <> 
+     
         <Row>
         {GrouptoCreate.name.replace(/ /g,'').length === 0? 
                     <Button className="ml-4 mt-2" disabled 
                         style={{ cursor: 'pointer' }} 
                         onClick={() =>{
                             addGroup(GrouptoCreate)
-                            .then(reset)
                             .then(history.push("/group"))
                         }}>
                     Save
@@ -62,7 +85,6 @@ const NewGroup = () => {
                         style={{ cursor: 'pointer' }} 
                         onClick={() =>{
                             addGroup(GrouptoCreate)
-                            .then(reset)
                             .then(history.push("/group"))
                         }}>
                     Save
@@ -96,8 +118,6 @@ const NewGroup = () => {
            </div>
         </CardBody>
     </Card>
-    </Col>
-    <Col>
     <Card>
         <CardBody>
             <h3>Group Leader</h3>
@@ -114,6 +134,38 @@ const NewGroup = () => {
                </fieldset>
            
            </div>
+        </CardBody>
+    </Card>
+    </Col>
+    <Col>
+    <Card>
+        <CardBody>
+            <h3>Group Attendees</h3>
+            <Row>
+           <Col className="container">
+           <FilteredMultiSelect
+        onChange={handleSelectionChange}
+        options={attendees}
+        selectedOptions={selectedAttendees}
+        textProp="firstName"
+        valueProp="id"
+       
+      />
+            </Col>
+            <Col>
+
+        {selectedAttendees.length === 0 && <p>(no one selected yet)</p>}
+        {selectedAttendees.length > 0 && <ul>
+        {selectedAttendees.map((attendee, i) => <li key={attendee.id}>
+          {`${attendee.firstName} `}
+          <button type="button" onClick={ () => {handleDeselect(attendee)}}>
+            &times;
+          </button>
+        </li>)}
+      </ul>}
+           
+           </Col>
+           </Row>
         </CardBody>
     </Card>
     </Col>

@@ -35,6 +35,8 @@ export function AttendeeProvider(props) {
         );
     }
 
+    
+
     return (
         <AttendeeContext.Provider value={{getAllAttendees, getAttendeesByGroup, attendees, groupAttendees}}>
             {

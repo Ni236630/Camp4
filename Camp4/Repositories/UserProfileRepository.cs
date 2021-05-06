@@ -45,7 +45,7 @@ namespace Camp4.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT up.Id, up.FirstName, up.LastName, up.Email, up.DateCreated, up.UserRoleId, up.GroupId, up.BerthId, up.EmergencyContactId, g.[name]
+                        SELECT up.Id, up.FirstName,up.firebaseId, up.LastName, up.Email, up.DateCreated, up.UserRoleId, up.GroupId, up.BerthId, up.EmergencyContactId, g.[name]
                         FROM UserProfile up
                         LEFT JOIN [Group] g ON g.id = up.GroupId
                         WHERE up.Id = @Id
