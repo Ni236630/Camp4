@@ -32,12 +32,15 @@ namespace Camp4.Controllers
         {
             return Ok(_attendeeRepository.GetByGroup(id));
         }
+
         [HttpPost]
-        public IActionResult AddGroup(Attendee attendee)
+        public IActionResult AddAttendee(Attendee attendee)
         {
             _attendeeRepository.Add(attendee);
-            return CreatedAtAction("Get", new { id = attendee.Id }, attendee);
+            return CreatedAtAction("AddAttendee", new { id = attendee.Id }, attendee);
         }
+
+
 
     }
 }

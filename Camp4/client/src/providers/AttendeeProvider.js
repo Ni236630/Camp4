@@ -35,10 +35,22 @@ export function AttendeeProvider(props) {
         );
     }
 
-    
+    const updateAttendeeGroup = (attendees) => {
+        return getToken().then((token) =>
+        fetch(`/api/attendee/`, {
+            method: 'PUT',
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(attendees),
+        }));
+    }
+
+
 
     return (
-        <AttendeeContext.Provider value={{getAllAttendees, getAttendeesByGroup, attendees, groupAttendees}}>
+        <AttendeeContext.Provider value={{updateAttendeeGroup, getAllAttendees, getAttendeesByGroup, attendees, groupAttendees}}>
             {
                 props.children
             }

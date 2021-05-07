@@ -1,21 +1,19 @@
-import React, { useContext } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import { Card, CardBody } from 'reactstrap';
 
 
 export const UserProfileCard = ({ userProfile }) => {
     
-    const history = useHistory();
-
 
 
     return (
         <Card className="m-4">
-            <Link to={`/userprofile/${userProfile.id}`}>
-                <h3 className="text-center">to see details</h3>
-            </Link>
+                <h3>Name: {userProfile.firstName} {userProfile.lastName}</h3>
             <CardBody>
-                <p>First Name: {userProfile.firstName}</p>
+            <Link className="text-center"to={`/userprofile/${userProfile.id}`}>
+               to see details
+            </Link>
             </CardBody>
         </Card>
     );
