@@ -16,7 +16,7 @@ namespace Camp4.Models
         public string Email { get; set; }
         [Required]
         public DateTime DateCreated { get; set; }
-        public int UserRole { get; set; }
+        public int UserRoleId { get; set; }
         public int GroupId { get; set; }
         public int BerthId { get; set; }
         public int EmergencyContactId { get; set; }

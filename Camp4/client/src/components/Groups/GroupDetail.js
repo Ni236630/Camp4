@@ -1,11 +1,12 @@
 import React, { useEffect, useContext } from 'react';
 import { GroupContext } from '../../providers/GroupProvider';
-import { Card, CardBody } from 'reactstrap';
+import { Card, CardBody, Button, Row } from 'reactstrap';
+import { useHistory } from 'react-router';
 
 
 export const GroupDetail = ({groupId}) => {
  
-    
+    const history = useHistory();
     
     const {getGroupById, group} = useContext(GroupContext)
     
@@ -21,11 +22,10 @@ export const GroupDetail = ({groupId}) => {
     
     return (
         <>
-        <h1 className="text-center">{group.name}</h1>
+        <h1 className="text-center">{group.name}</h1> 
         <Card className="container mt-1">
             <CardBody>
-       
-            {console.log(group)}
+           <Row> <Button className="ml-auto" onClick={()=>{history.push(`/group/${groupId}`)}} >Edit</Button></Row>
           { !group.userProfile ? <p>No leader has been assigned</p> : <p>Group Leader: {group.userProfile.firstName} {group.userProfile.lastName}</p>}
   
             <ul>{group.attendees.length > 0 ?( group.attendees.map((a)=>{

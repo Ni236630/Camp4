@@ -112,14 +112,14 @@ namespace Camp4.Repositories
                                                                  Email, DateCreated, GroupId, UserRoleId, BerthId, EmergencyContactId)
                                         OUTPUT INSERTED.ID
                                         VALUES (@FirebaseId, @FirstName, @LastName, 
-                                                @Email, @DateCreated, @GroupId, @UserTypeId, @BerthId, @EmergencyContactId)";
+                                                @Email, @DateCreated, @GroupId, @UserRoleId, @BerthId, @EmergencyContactId)";
                     DbUtils.AddParameter(cmd, "@FirebaseId", userProfile.FirebaseId);
                     DbUtils.AddParameter(cmd, "@FirstName", userProfile.FirstName);
                     DbUtils.AddParameter(cmd, "@LastName", userProfile.LastName);
                     DbUtils.AddParameter(cmd, "@Email", userProfile.Email);
                     DbUtils.AddParameter(cmd, "@DateCreated", userProfile.DateCreated);
                     DbUtils.AddParameter(cmd, "@GroupId", userProfile.GroupId);
-                    DbUtils.AddParameter(cmd, "@UserRole", userProfile.UserRole);
+                    DbUtils.AddParameter(cmd, "@UserRoleId", userProfile.UserRoleId);
                     DbUtils.AddParameter(cmd, "@BerthId", userProfile.BerthId);
                     DbUtils.AddParameter(cmd, "@EmergencyContactId", userProfile.EmergencyContactId);
 
@@ -139,7 +139,7 @@ namespace Camp4.Repositories
                         UPDATE UserProfile
                             SET UserTypeId = @UserTypeId
                         WHERE Id = @Id";
-                    DbUtils.AddParameter(cmd, @"UserRole", userProfile.UserRole);
+                    DbUtils.AddParameter(cmd, @"UserRole", userProfile.UserRoleId);
                     DbUtils.AddParameter(cmd, "@Id", userProfile.Id);
 
                     cmd.ExecuteNonQuery();
@@ -160,7 +160,7 @@ namespace Camp4.Repositories
                 FirstName = DbUtils.GetString(reader, "firstName"),
                 LastName = DbUtils.GetString(reader, "lastName"),
                 Email = DbUtils.GetString(reader, "email"),
-                UserRole = DbUtils.GetInt(reader, "userRoleId"),
+                UserRoleId = DbUtils.GetInt(reader, "userRoleId"),
                 EmergencyContactId = DbUtils.GetInt(reader, "emergencyContactId"),
                 BerthId = DbUtils.GetInt(reader, "berthId"),
                 GroupId = DbUtils.GetInt(reader, "groupId"),

@@ -1,9 +1,9 @@
 import React, {useContext, useEffect, useState, } from 'react'
-import { useHistory } from 'react-router';
+import { useHistory, Link } from 'react-router-dom';
 import { Button,  Input, Card, CardBody, Row, Col } from 'reactstrap';
 import { GroupContext } from '../../providers/GroupProvider';
 import FilteredMultiSelect from 'react-filtered-multiselect'
-import { UserProfileContext } from '../../providers/UserProfileProvider';
+import { UserProfileContext, UserProfileProvider } from '../../providers/UserProfileProvider';
 import { AttendeeContext } from '../../providers/AttendeeProvider';
 
 const NewGroup = () => {
@@ -15,7 +15,8 @@ const NewGroup = () => {
 
     const [ GrouptoCreate, setGroupToCreate] = useState({
       
-        name: ""
+        name: "",
+      
     });
     const [groupLeader, setGroupLeader] = useState({});
     const [selectedAttendees, setSelectedAttendees] = useState([])
@@ -30,7 +31,7 @@ const NewGroup = () => {
     
      const  handleSelectionChange = (selectedAttendees) => {
         setSelectedAttendees(selectedAttendees)
-       
+        
         
       }
 
@@ -40,8 +41,6 @@ const NewGroup = () => {
         .then(getAllAttendees)
     },[])
 
-      
-  
 
     const handleControlledInputChange = (event) => {
         const newGroup = { ...GrouptoCreate };
@@ -49,7 +48,7 @@ const NewGroup = () => {
         setGroupToCreate(newGroup);
       };
 
-// figure out how to get the object here!
+
 
     const GroupLeaderInputChange = (event) => {
         if (event.target.value !== 0 )
@@ -58,25 +57,41 @@ const NewGroup = () => {
             getUserProfileById(event.target.value)
             .then((res) => {
                   setGroupLeader(res);
-                  console.log(groupLeader)
+                
             })
            
         } 
       
     }
 
+   
+
+    const groupToSend = {
+        name : GrouptoCreate.name,
+        userProfile: groupLeader, 
+        attendees: selectedAttendees
+    }
+
+    const saveNewGroup = () => {
+      
+       
+       addGroup(groupToSend)
+        .then(()=> {
+            history.push("/group")
+        })
+        
+    }
  
 
     return (
         <> 
-     
+    
         <Row>
         {GrouptoCreate.name.replace(/ /g,'').length === 0? 
                     <Button className="ml-4 mt-2" disabled 
                         style={{ cursor: 'pointer' }} 
                         onClick={() =>{
-                            addGroup(GrouptoCreate)
-                            .then(history.push("/group"))
+                            saveNewGroup()
                         }}>
                     Save
                     </Button> 
@@ -84,8 +99,7 @@ const NewGroup = () => {
                     <Button className="ml-4 mt-2" active 
                         style={{ cursor: 'pointer' }} 
                         onClick={() =>{
-                            addGroup(GrouptoCreate)
-                            .then(history.push("/group"))
+                            saveNewGroup()
                         }}>
                     Save
                     </Button> }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Camp4.Models;
 using Camp4.Repositories;
 using Camp4.Utils;
+using System.Linq;
 
 namespace Camp4.Repositories
 {
@@ -105,7 +106,41 @@ namespace Camp4.Repositories
                     DbUtils.AddParameter(cmd, "@name", group.Name);
 
                     group.Id = (int)cmd.ExecuteScalar();
+
                 }
+
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                    UPDATE UserProfile
+                    SET groupId  = @userPgroupId
+                     WHERE Id = @userId
+                    ";
+
+                    DbUtils.AddParameter(cmd, "@userPgroupId", group.Id);
+                    DbUtils.AddParameter(cmd, "@userId", group.UserProfile.Id);
+
+                    cmd.ExecuteNonQuery();
+                }
+
+                using (var cmd = conn.CreateCommand())
+                {
+                    var sql = @"";
+                    for (int i = 0; i < group.attendees.Count(); i++)
+                    {
+                        sql += $@"
+                    UPDATE Attendee 
+                    SET groupId = @groupId{i}
+                    WHERE Id = @attendeeId{i}
+                    ";
+                        DbUtils.AddParameter(cmd, $"@groupId{i}", group.Id);
+                        DbUtils.AddParameter(cmd, $"@attendeeId{i}", $"{ group.attendees[i].Id}");
+                    }
+
+                    cmd.CommandText = sql; 
+                    cmd.ExecuteNonQuery();
+                }
+                
             }
         }
         private Group newGroupFromDb(SqlDataReader reader)
