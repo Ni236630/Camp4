@@ -29,7 +29,7 @@ export default function ApplicationViews() {
           {isLoggedIn ? <NewGroup /> : <Redirect to="/login" />}
         </Route>
 
-        <Route path="/EditGroup/:Id" exact>
+        <Route path="/editGroup/:Id"  exact>
           {isLoggedIn ? <GroupEditForm /> : <Redirect to="/login" />}
         </Route>
 

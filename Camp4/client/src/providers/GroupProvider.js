@@ -52,13 +52,23 @@ export function GroupProvider(props) {
     }
 
 
-
+    const editGroup = (group) => {
+        return getToken().then((token)=> 
+        fetch(`${apiUrl}/editGroup/${group.id}`, {
+            method: 'PUT',
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(group),
+        }))
+    }
 
 
 
 
     return (
-        <GroupContext.Provider value={{getAllGroups, groups, group, displayGroupId, setDisplayGroupId, getGroupById, addGroup}}>
+        <GroupContext.Provider value={{editGroup, getAllGroups, groups, group, displayGroupId, setDisplayGroupId, getGroupById, addGroup}}>
             {
                 props.children
             }
