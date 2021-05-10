@@ -54,7 +54,7 @@ export function GroupProvider(props) {
 
     const editGroup = (group) => {
         return getToken().then((token)=> 
-        fetch(`${apiUrl}/editGroup/${group.id}`, {
+        fetch(`${apiUrl}/editGroup/${group.Id}`, {
             method: 'PUT',
             headers: {
                 Authorization: `Bearer ${token}`,

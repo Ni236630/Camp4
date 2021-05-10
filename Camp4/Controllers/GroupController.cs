@@ -40,5 +40,15 @@ namespace Camp4.Controllers
             return CreatedAtAction("Get", new { id = group.Id }, group);
         }
 
+        [HttpPut("editGroup/{id}")]
+        public IActionResult Put(Group group)
+        {
+            
+            _groupRepository.UpdateGroup(group);
+            return NoContent();
+
+
+        }
+
     }
 }

@@ -3,7 +3,7 @@ import { useHistory, useParams } from 'react-router-dom'
 import { GroupContext } from '../../providers/GroupProvider';
 import { Card, CardBody, Row, Input, Button,  Col } from 'reactstrap'
 import FilteredMultiSelect from 'react-filtered-multiselect'
-import { UserProfileContext, UserProfileProvider } from '../../providers/UserProfileProvider';
+import { UserProfileContext} from '../../providers/UserProfileProvider';
 import { AttendeeContext } from '../../providers/AttendeeProvider';
 
 
@@ -13,7 +13,7 @@ const GroupEditForm = () => {
 
     const { id } = useParams();
     const { getGroupById, group, editGroup } = useContext(GroupContext);
-    const { users, getAll, getUserProfileById } = useContext(UserProfileContext);
+    const { users,  getUserProfileById } = useContext(UserProfileContext);
     const { attendees, getAllAttendees } = useContext(AttendeeContext);
 
 
@@ -21,10 +21,14 @@ const GroupEditForm = () => {
     const [ selectedAttendees, setSelectedAttendees] = useState([]);
     const [ selectedLeader, setSelectedLeader ] = useState({});
     const [ GrouptoCreate, setGroupToCreate] = useState({
-      
+        id: 0,
         name: "",
+        userProfile:{},
+        attendees: []
+        
       
     });
+    
     
 
     const history = useHistory();
@@ -37,24 +41,36 @@ const GroupEditForm = () => {
     
           }
         
-         const  handleSelectionChange = (selectedAttendees) => {
-            setSelectedAttendees(selectedAttendees)
-            
-            
-          }
+
+         const  handleSelectionChange = (s) => { setSelectedAttendees(s)  }
 
           
+       
     
     useEffect(() => {
-        getGroupById(id)
-            // .then(() => {
-            //     setSelectedAttendees(group.attendees)
-            // })
-            //     .then(() => {
-            //         setSelectedLeader(group.UserProfile)
-            //     })
-    }, [])
 
+        if (id) {
+            getAllAttendees()
+            getGroupById(id)        
+        } else {
+            setGroupToCreate({
+              
+                name: "",
+                userProfile: {},
+                attendees:[]
+                
+            });
+        }    
+    }, [id])
+
+    useEffect(() => {
+            if (group.attendees)
+            {
+                setSelectedAttendees(group.attendees)
+                setGroupToCreate((prevState) => {
+                    return {...prevState, name: group.name, attendees: selectedAttendees, userProfile: group.userProfile}})
+            }
+    }, [group])
 
 
     const handleControlledInputChange = (event) => {
@@ -79,17 +95,16 @@ const GroupEditForm = () => {
       
     }
 
-   
-
     const groupToSend = {
-        name : GrouptoCreate.name,
-        userProfile: selectedLeader, 
+        Id: group.id,
+        name: GrouptoCreate.name,
+        userProfile: GrouptoCreate.userProfile,
         attendees: selectedAttendees
     }
 
     const saveGroupEdit = () => {
-      
-       
+      console.log(groupToSend)
+     
         editGroup(groupToSend)
         .then(()=> {
             history.push("/group")
@@ -100,10 +115,11 @@ const GroupEditForm = () => {
 
     return (
         <> 
-        {console.log(id)}
+     
+       
     
         <Row>
-        {GrouptoCreate.name.replace(/ /g,'').length === 0? 
+        {GrouptoCreate?.name?.replace(/ /g,'').length === 0? 
                     <Button className="ml-4 mt-2" disabled 
                         style={{ cursor: 'pointer' }} 
                         onClick={() =>{
@@ -132,14 +148,14 @@ const GroupEditForm = () => {
             <Col>
         <Card>
         <CardBody>
-            <h3>{`${group.Name}`}</h3>
+            <h3>{`${group.name}`}</h3>
            <div >
                <fieldset className="mb-2">
                 <Input type="text"
                         name="name"
                         id="name"
                         value={GrouptoCreate.name}
-                        placeholder = "Name of New Group"
+                        placeholder = {group.name}
                         autoComplete="off"
                         onChange = {handleControlledInputChange}
                         />
@@ -153,8 +169,8 @@ const GroupEditForm = () => {
             <h3>Group Leader</h3>
            <div >
                <fieldset className="mb-2">
-               <select name="groupLeader" onChange={GroupLeaderInputChange}id="groupLeaderSelect">
-            <option value="0">Please Select A Leader</option>
+               <select name="groupLeader" onChange={GroupLeaderInputChange} id="groupLeaderSelect">
+           {group.userProfile ?  <option value={group.userProfile.id}>{group.userProfile.firstName} {group.userProfile.lastName}</option>: <option value="0">Please Select A Leader</option>}
             {users.map((u) => {   
                 if(u.groupId === 1 ){
                     return <option   key={u.id} value={u.id}>{u.firstName} {u.lastName}</option>;  
@@ -174,7 +190,7 @@ const GroupEditForm = () => {
             <Row>
            <Col className="container">
            <FilteredMultiSelect
-        onChange={handleSelectionChange}
+        onChange={ handleSelectionChange}
         options={attendees}
         selectedOptions={selectedAttendees}
         textProp="firstName"
