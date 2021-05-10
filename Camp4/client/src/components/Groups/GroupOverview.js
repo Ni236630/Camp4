@@ -1,4 +1,4 @@
-import React, { useContext} from 'react';
+import React, { useContext, useEffect} from 'react';
 import { useHistory } from 'react-router';
 import {Row, Col, Button} from 'reactstrap'
 import { GroupContext } from '../../providers/GroupProvider';
@@ -11,9 +11,13 @@ import GroupList from './GroupList';
 
 
 const GroupOverview = () => {
-    const {displayGroupId} = useContext(GroupContext);
+    const {displayGroupId, groups} = useContext(GroupContext);
 
     const history = useHistory();
+
+    useEffect(()=> {
+  
+    },[groups])
     
     return (
         <>

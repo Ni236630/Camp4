@@ -9,5 +9,6 @@ namespace Camp4.Repositories
         List<Group> GetAll();
         Group getGroupById(int id);
         void UpdateGroup(Group group);
+        void DeleteGroup(int id);
     }
 }

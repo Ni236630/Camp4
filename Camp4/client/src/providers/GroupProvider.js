@@ -64,11 +64,22 @@ export function GroupProvider(props) {
         }))
     }
 
+    const deleteGroup = (groupId) => {
+            return getToken().then((token) =>
+            fetch(`${apiUrl}/${groupId}`, {
+                method: `DELETE`, 
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    
+                }
+            }))
+    }
+
 
 
 
     return (
-        <GroupContext.Provider value={{editGroup, getAllGroups, groups, group, displayGroupId, setDisplayGroupId, getGroupById, addGroup}}>
+        <GroupContext.Provider value={{editGroup, deleteGroup,  getAllGroups, groups, group, displayGroupId, setDisplayGroupId, getGroupById, addGroup}}>
             {
                 props.children
             }

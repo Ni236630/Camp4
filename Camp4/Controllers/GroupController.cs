@@ -50,5 +50,12 @@ namespace Camp4.Controllers
 
         }
 
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            _groupRepository.DeleteGroup(id);
+            return NoContent();
+        }
+
     }
 }

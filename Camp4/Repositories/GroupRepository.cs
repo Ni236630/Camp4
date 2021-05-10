@@ -168,6 +168,56 @@ namespace Camp4.Repositories
             }
         }
 
+        public void DeleteGroup(int groupId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+              
+                    using (var cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = @"
+                    UPDATE UserProfile
+                    SET groupId  = 1
+                     WHERE groupId = @userPgroupId
+                    ";
+
+                        DbUtils.AddParameter(cmd, "@userPgroupId", groupId);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                
+
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                    UPDATE Attendee
+                    SET groupId  = 1
+                     WHERE groupId = @groupId
+                    ";
+
+                    DbUtils.AddParameter(cmd, "@groupId", groupId);
+
+                    cmd.ExecuteNonQuery();
+
+                }
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        DELETE [Group]
+                        WHERE Id = @id
+                    ";
+
+
+                    DbUtils.AddParameter(cmd, "@id", groupId);
+
+                    cmd.ExecuteNonQuery();
+                }
+
+
+            }
+        }
+
         public void UpdateGroup(Group group)
         {
             using(var conn = Connection)
@@ -239,6 +289,8 @@ namespace Camp4.Repositories
                 }
             }
         }
+
+
 
         private Group newGroupFromDb(SqlDataReader reader)
         {
