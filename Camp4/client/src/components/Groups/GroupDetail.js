@@ -39,9 +39,9 @@ export const GroupDetail = ({groupId}) => {
            <Button className="ml-1" onClick={() => {deleteThisGroup()}} >Delete</Button>
                <Button className="ml-auto mr-1" onClick={()=>{history.push(`/editGroup/${groupId}`)}} >Edit</Button>
             </Row>
-          { !group.userProfile ? <p>No leader has been assigned</p> : <p>Group Leader: {group.userProfile.firstName} {group.userProfile.lastName}</p>}
+          { !group?.userProfile ? <p> No leader has been assigned</p> : <p>Group Leader: {group.userProfile.firstName} {group.userProfile.lastName}</p>}
   
-            <ul>{group.attendees.length > 0 ?( group.attendees.map((a)=>{
+            <ul>{group?.attendees.length > 0 ?( group.attendees.map((a)=>{
               return <li key={a.Id}> {a.firstName} {a.lastName}</li>
           }) )
           :

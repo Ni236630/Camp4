@@ -68,8 +68,6 @@ const EditUser = () => {
  }
     return (
         <> 
-     {console.log(userToSave, id)}
-    
         <Row>
         {newUserFirst?.replace(/ /g,'').length === 0? 
                     <Button className="ml-4 mt-2" disabled 

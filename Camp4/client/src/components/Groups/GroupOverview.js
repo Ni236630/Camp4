@@ -18,7 +18,7 @@ const GroupOverview = () => {
     const history = useHistory();
 
     useEffect(()=> {
-  
+        
     },[groups])
     
     return (

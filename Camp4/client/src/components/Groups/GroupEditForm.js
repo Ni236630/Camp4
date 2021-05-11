@@ -103,8 +103,6 @@ const GroupEditForm = () => {
     }
 
     const saveGroupEdit = () => {
-      console.log(groupToSend)
-     
         editGroup(groupToSend)
         .then(()=> {
             history.push("/group")

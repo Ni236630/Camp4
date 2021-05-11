@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { useHistory } from 'react-router';
 import { Card, CardBody } from 'reactstrap';
 import { GroupContext } from '../../providers/GroupProvider';
 
@@ -6,12 +7,12 @@ import { GroupContext } from '../../providers/GroupProvider';
 
 export const GroupCard = ({ group }) => {
     
- 
+    const history = useHistory();
     const {setDisplayGroupId} = useContext(GroupContext)
 
     const handleClick =  () => {
         setDisplayGroupId(group.id)
-        
+  
         
     }
 

@@ -8,18 +8,29 @@ export default function Hello() {
     const userProfile = sessionStorage.getItem("userProfile");
     const usableUser = JSON.parse(userProfile)
 
-    const {getGroupById,  group } = useContext(GroupContext)
+    const {getGroupById,  group, groups, getAllGroups } = useContext(GroupContext)
     const {getUserProfile, user } = useContext(UserProfileContext)
     
     useEffect(() => {
-        getUserProfile(usableUser.firebaseId)
-        .then(()=>{
 
-          console.log(user)
-            getGroupById(user.groupId)
-        })
+             if(usableUser)
+        {
+          
+            
+            getUserProfile(usableUser.firebaseId)
+            .then(()=>{
+                    
+                getGroupById(user.groupId)
+            })
+       }},[usableUser.id])
+       
+
+        useEffect(() => {
+            getAllGroups()
+        },[])
+       
         
-    }, [])
+  
 
     
 
@@ -42,6 +53,12 @@ export default function Hello() {
                 <div>
                     <h1 className="text-center">Current Groups</h1>    
                     <GroupList/>
+                    {/* <ul>
+
+                    {groups.map((g) => {
+                        <li key={g.id} >{g.name}</li>
+                    })}
+                    </ul> */}
                 </div>
                </Col>
            </Row>
