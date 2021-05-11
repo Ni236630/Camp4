@@ -12,7 +12,7 @@ const UnassignedGroupList = () => {
     },[])
 
     return(
-        <div className="ml-4">
+        <div className="ml-4 ">
            
          <ul>{
              groups.filter((group) => group.id > 1).map((g)=>{

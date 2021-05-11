@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using Camp4.Models;
-using Camp4.Repositories;
 using Camp4.Utils;
 
 namespace Camp4.Repositories

@@ -1,12 +1,6 @@
 ﻿using Camp4.Models;
 using Camp4.Repositories;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Camp4.Controllers
 {
@@ -15,10 +9,12 @@ namespace Camp4.Controllers
     public class GroupController : ControllerBase
     {
         private readonly IGroupRepository _groupRepository;
+       
 
         public GroupController(IGroupRepository groupRepository)
         {
             _groupRepository = groupRepository;
+
         }
         
         [HttpGet]
@@ -53,9 +49,14 @@ namespace Camp4.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            _groupRepository.DeleteGroup(id);
-            return NoContent();
+          
+                _groupRepository.DeleteGroup(id);
+                 return NoContent();
+            
+            
         }
+
+      
 
     }
 }

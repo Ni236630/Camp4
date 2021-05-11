@@ -8,7 +8,6 @@ import PersonnelOverview from './OverViews/PersonnelOverview';
 import NewGroup from "./Groups/NewGroupForm";
 import Login from "./Login";
 import Register from "./Register";
-import NewAttendee from "./Attendees/NewAttendee";
 import EditUser from "./UserProfile/EditUserProfile";
 
 

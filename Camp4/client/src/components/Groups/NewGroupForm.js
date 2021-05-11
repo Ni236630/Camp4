@@ -1,9 +1,9 @@
 import React, {useContext, useEffect, useState, } from 'react'
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Button,  Input, Card, CardBody, Row, Col } from 'reactstrap';
 import { GroupContext } from '../../providers/GroupProvider';
 import FilteredMultiSelect from 'react-filtered-multiselect'
-import { UserProfileContext, UserProfileProvider } from '../../providers/UserProfileProvider';
+import { UserProfileContext } from '../../providers/UserProfileProvider';
 import { AttendeeContext } from '../../providers/AttendeeProvider';
 
 const NewGroup = () => {

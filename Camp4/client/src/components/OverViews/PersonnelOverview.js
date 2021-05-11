@@ -1,5 +1,5 @@
 import React, {useState, useContext, useEffect} from 'react';
-import { useHistory } from 'react-router';
+
 import {Row, Col, Button} from 'reactstrap'
 import { AttendeeContext } from '../../providers/AttendeeProvider';
 import { UserProfileContext } from '../../providers/UserProfileProvider';
@@ -14,32 +14,53 @@ import UserList from '../UserProfile/UserList'
 
 const PersonnelOverview = () => {
    
-    const { getAll, users } = useContext(UserProfileContext);
-    const {getAllAttendees, attendees} = useContext(AttendeeContext)
+    const userProfile = sessionStorage.getItem("userProfile");
+    const usableUser = JSON.parse(userProfile)
 
+    const { getAll } = useContext(UserProfileContext);
+    const {getAllAttendees} = useContext(AttendeeContext)
+
+    const { getUserProfileById, user, setUser} = useContext(UserProfileContext)
     const [viewEmployeeDetails, setViewEmployeeDetails] = useState(false)
     const [viewAttendeeDetails, setViewAttendeeDetails] = useState(false)
     const [viewEmployeeId, setViewEmployeeId] = useState()
-    const [viewAttendeeId, setViewAttendeeId] = useState()
 
-    const history = useHistory();
-    
+
+ 
     useEffect(() => {
         getAllAttendees()
         getAll()
+
     }, [])
 
+    useEffect(() => {
+       getUserProfileById(usableUser.id)
+        .then((userprofile)=>{
+            setUser(userprofile)
+        })
+      
+       
+    }, []);
 
     return (
         <>
-           <Row>
-               {/* <Button className="ml-4 mt-2 mr-auto" onClick={() => {history.push("/newUser")}}> New Employee </Button> */}
+          {user.userRoleId === 1? <Row>
+              
                <Button className="ml-auto mt-2 mr-4" onClick={() => {
                     setViewAttendeeDetails(true) 
                     setViewEmployeeDetails(false)}}> 
                     New Attendee 
                 </Button>
             </Row>
+            :
+            <Row>
+            <Button className="ml-auto mt-2 mr-4" disabled onClick={() => {
+                setViewAttendeeDetails(true) 
+                setViewEmployeeDetails(false)}}> 
+                New Attendee 
+            </Button>
+        </Row>
+            }
            <Row className="mt-auto"> 
                <Col>
                     <h1 className="text-center">Employees</h1>

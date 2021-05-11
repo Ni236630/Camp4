@@ -1,16 +1,14 @@
 import React, { useContext, useEffect } from 'react';
 import {Row, Col} from 'reactstrap'
-import GroupList from './components/Groups/GroupList';
 import UnassignedGroupList from './components/Groups/UnassignedGroups';
 import { GroupContext } from './providers/GroupProvider';
-import { UserProfileContext } from './providers/UserProfileProvider';
 
 export default function Hello() {
     const userProfile = sessionStorage.getItem("userProfile");
     const usableUser = JSON.parse(userProfile)
 
-    const {getGroupById,  group, groups, getAllGroups } = useContext(GroupContext)
-    const {getUserProfile, user } = useContext(UserProfileContext)
+    const {getGroupById,  group,  getAllGroups } = useContext(GroupContext)
+
     
     useEffect(() => {
 
@@ -48,7 +46,7 @@ export default function Hello() {
                <Col>
                 <div>
                     <h1 className="text-center">Current Groups</h1>    
-                    {/* <GroupList/> */}
+            
                     <UnassignedGroupList />
                 </div>
                </Col>

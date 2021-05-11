@@ -3,13 +3,13 @@ import React, {useState, useContext, useEffect } from 'react'
 import {useHistory, useParams} from 'react-router-dom'
 import { UserProfileContext } from '../../providers/UserProfileProvider'
 import { Card, CardBody, Row, Input, Button,  Col } from 'reactstrap'
-import { ThemeConsumer } from 'react-bootstrap/esm/ThemeProvider'
+
 
 
 const EditUser = () => {
 
     const {id} = useParams();
-    const {getUserProfileById, user, editUser} = useContext(UserProfileContext);
+    const {getUserProfileById, user, editUser, setUser} = useContext(UserProfileContext);
 
     const [ newUserFirst, setNewUserFirst ] = useState("")
     const [ newUserLast, setNewUserLast ] = useState("")
@@ -23,6 +23,9 @@ const EditUser = () => {
         if(id)
         {
             getUserProfileById(id)
+                .then((up) => {
+                    setUser(up)
+                })
          
             
         }
@@ -61,10 +64,13 @@ const EditUser = () => {
     }
 
     const saveUserEdit = () => {
+        user.userRoleId === 1?
         editUser(userToSave)
         .then(() => {
             history.push('/personnel')
         })
+        :
+        window.alert("You do not have the right permissions!")
  }
     return (
         <> 

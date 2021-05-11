@@ -7,7 +7,7 @@ export function AttendeeProvider(props) {
     const apiUrl = "/api/attendee";
     const {getToken} = useContext(UserProfileContext);
     const [attendees, setAttendees] =useState([]);
-    const [attendee, setAttendee] =useState([]);
+    const [ setAttendee] =useState([]);
     const [groupAttendees, setGroupAttenddees] = useState([]);
     
     const getAllAttendees = () => {

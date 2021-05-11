@@ -11,9 +11,12 @@ import { AttendeeContext } from '../../providers/AttendeeProvider';
 
 const GroupEditForm = () => {
 
+    const userProfile = sessionStorage.getItem("userProfile");
+    const usableUser = JSON.parse(userProfile)
+
     const { id } = useParams();
     const { getGroupById, group, editGroup } = useContext(GroupContext);
-    const { users,  getUserProfileById } = useContext(UserProfileContext);
+    const { users,  getUserProfileById, setUser,user } = useContext(UserProfileContext);
     const { attendees, getAllAttendees } = useContext(AttendeeContext);
 
 
@@ -64,6 +67,13 @@ const GroupEditForm = () => {
     }, [id])
 
     useEffect(() => {
+        getUserProfileById(usableUser.id)
+        .then((userprofile)=>{
+            setUser(userprofile)
+        })
+    })
+
+    useEffect(() => {
             if (group.attendees)
             {
                 setSelectedAttendees(group.attendees)
@@ -103,10 +113,12 @@ const GroupEditForm = () => {
     }
 
     const saveGroupEdit = () => {
-        editGroup(groupToSend)
-        .then(()=> {
-            history.push("/group")
-        })
+        user.userRoleId === 1?
+     editGroup(groupToSend)
+            .then(()=> {
+                history.push("/group")
+            })
+            :  window.alert("you are not an admin")
         
     }
  
@@ -115,9 +127,9 @@ const GroupEditForm = () => {
         <> 
      
        
-    
+   
         <Row>
-        {GrouptoCreate?.name?.replace(/ /g,'').length === 0? 
+        {GrouptoCreate?.name?.replace(/ /g,'').length === 0 ? 
                     <Button className="ml-4 mt-2" disabled 
                         style={{ cursor: 'pointer' }} 
                         onClick={() =>{
