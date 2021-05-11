@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import {Row, Col} from 'reactstrap'
 import GroupList from './components/Groups/GroupList';
+import UnassignedGroupList from './components/Groups/UnassignedGroups';
 import { GroupContext } from './providers/GroupProvider';
 import { UserProfileContext } from './providers/UserProfileProvider';
 
@@ -15,13 +16,8 @@ export default function Hello() {
 
              if(usableUser)
         {
-          
-            
-            getUserProfile(usableUser.firebaseId)
-            .then(()=>{
-                    
-                getGroupById(user.groupId)
-            })
+                getGroupById(usableUser.groupId)
+
        }},[usableUser.id])
        
 
@@ -52,13 +48,8 @@ export default function Hello() {
                <Col>
                 <div>
                     <h1 className="text-center">Current Groups</h1>    
-                    <GroupList/>
-                    {/* <ul>
-
-                    {groups.map((g) => {
-                        <li key={g.id} >{g.name}</li>
-                    })}
-                    </ul> */}
+                    {/* <GroupList/> */}
+                    <UnassignedGroupList />
                 </div>
                </Col>
            </Row>

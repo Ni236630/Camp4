@@ -38,6 +38,7 @@ export function UserProfileProvider(props) {
     return firebase.auth().signInWithEmailAndPassword(email, pw)
       .then((signInResponse) => getUserProfile(signInResponse.user.uid))
       .then((userProfile) => {
+     
         sessionStorage.setItem("userProfile", JSON.stringify(userProfile));
         setIsLoggedIn(true);
       });
@@ -71,7 +72,7 @@ export function UserProfileProvider(props) {
         }
       }).then(resp => resp.json())
       
-    .then(setUser));
+    );
   };
 
   const getUserProfileById = (id) => {
@@ -82,7 +83,10 @@ export function UserProfileProvider(props) {
         Authorization: `Bearer ${token}`
       }
     }).then(resp => resp.json())
-    .then(setUser))
+    .then((userprofile)=> {
+      setUser(userprofile)
+      return userprofile
+    }))
     ;
   }
 

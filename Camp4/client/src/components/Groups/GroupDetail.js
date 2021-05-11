@@ -32,6 +32,7 @@ export const GroupDetail = ({groupId}) => {
     
     return (
         <>
+        {console.log(group.attendees)}
         <h1 className="text-center">{group.name}</h1> 
         <Card className="container mt-1">
             <CardBody>
@@ -42,7 +43,7 @@ export const GroupDetail = ({groupId}) => {
           { !group?.userProfile ? <p> No leader has been assigned</p> : <p>Group Leader: {group.userProfile.firstName} {group.userProfile.lastName}</p>}
   
             <ul>{group?.attendees.length > 0 ?( group.attendees.map((a)=>{
-              return <li key={a.Id}> {a.firstName} {a.lastName}</li>
+              return <li  key={a.id}> {a.firstName} {a.lastName}</li>
           }) )
           :
           <p>There is no one in this group</p>}</ul>
