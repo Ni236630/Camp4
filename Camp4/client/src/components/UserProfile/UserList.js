@@ -3,7 +3,7 @@ import {  UserProfileContext   } from "../../providers/UserProfileProvider";
 import { UserProfileCard } from './UserProfileCard';
 
 
-const UserList = () => {
+const UserList = (params) => {
 
     const {users, getAll} = useContext(UserProfileContext);
 
@@ -15,7 +15,7 @@ const UserList = () => {
     return(
         <div className="container">
             {users.map((u)=> {
-               return <UserProfileCard key={u.id} userProfile={u}/>
+               return <UserProfileCard key={u.id} userProfile={u} thisParams={params}/>
             })}
         </div>
     )

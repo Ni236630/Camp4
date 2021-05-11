@@ -81,9 +81,22 @@ export function UserProfileProvider(props) {
       headers: {
         Authorization: `Bearer ${token}`
       }
-    }).then(resp => resp.json()))
+    }).then(resp => resp.json())
+    .then(setUser))
     ;
   }
+
+  const editUser = (user) => {
+    return getToken().then((token)=> 
+    fetch(`/api/userprofile/editUser/${user.Id}`, {
+        method: 'PUT',
+        headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(user),
+    }))
+}
 
   const saveUser = (userProfile) => {
     return getToken().then((token) =>
@@ -98,7 +111,7 @@ export function UserProfileProvider(props) {
   };
 
   return (
-    <UserProfileContext.Provider value={{ isLoggedIn, getUserProfileById,getUserProfile, login, logout, register, getToken, getAll, users, user }}>
+    <UserProfileContext.Provider value={{editUser, isLoggedIn, getUserProfileById,getUserProfile, login, logout, register, getToken, getAll, users, user }}>
       {isFirebaseReady
         ? props.children
         : <Spinner className="app-spinner dark"/>}

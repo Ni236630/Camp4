@@ -22,7 +22,7 @@ namespace Camp4.Models
         public int EmergencyContactId { get; set; }
         public string FirebaseId { get; set; }
 
-        public Group Group { get; set; }
+        public Group group { get; set; }
 
 
     }

@@ -101,7 +101,9 @@ namespace Camp4.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-
+                        INSERT INTO Attendee (firstName, lastName, groupId, berthId, emergencyContactId)
+                        OUTPUT INSERTED.ID
+                        VALUES (@FirstName, @LastName, @GroupId, @BerthId, @EmergencyContactId)
                     ";
                     DbUtils.AddParameter(cmd, "@FirstName", attendee.FirstName);
                     DbUtils.AddParameter(cmd, "@LastName", attendee.LastName);

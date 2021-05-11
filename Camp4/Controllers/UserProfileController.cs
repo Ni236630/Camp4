@@ -55,5 +55,15 @@ namespace Camp4.Controllers
                 userProfile);
         }
 
+        [HttpPut("editUser/{id}")]
+        public IActionResult Put(UserProfile user)
+        {
+
+            _userProfileRepository.Update(user);
+            return NoContent();
+
+
+        }
+
     }
 }

@@ -7,6 +7,7 @@ export function AttendeeProvider(props) {
     const apiUrl = "/api/attendee";
     const {getToken} = useContext(UserProfileContext);
     const [attendees, setAttendees] =useState([]);
+    const [attendee, setAttendee] =useState([]);
     const [groupAttendees, setGroupAttenddees] = useState([]);
     
     const getAllAttendees = () => {
@@ -19,6 +20,19 @@ export function AttendeeProvider(props) {
         })
         .then(res => res.json())
         .then(setAttendees)
+    )
+    }
+
+    const getAttendeeById = (id) => {
+        return getToken().then((token) => 
+        fetch(`${apiUrl}/${id}`,{
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then(res => res.json())
+        .then(setAttendee)
     )
     }
 
@@ -35,6 +49,19 @@ export function AttendeeProvider(props) {
         );
     }
 
+    const addAttendee = (attendee) => {
+        return getToken().then((token) => 
+        fetch(`${apiUrl}`,{
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(attendee)
+        })).then(res => res.json())
+    }
+
+
     const updateAttendeeGroup = (attendees) => {
         return getToken().then((token) =>
         fetch(`/api/attendee/`, {
@@ -50,7 +77,7 @@ export function AttendeeProvider(props) {
 
 
     return (
-        <AttendeeContext.Provider value={{updateAttendeeGroup, getAllAttendees, getAttendeesByGroup, attendees, groupAttendees}}>
+        <AttendeeContext.Provider value={{addAttendee, getAttendeeById, updateAttendeeGroup, getAllAttendees, getAttendeesByGroup, attendees, attendees, groupAttendees}}>
             {
                 props.children
             }

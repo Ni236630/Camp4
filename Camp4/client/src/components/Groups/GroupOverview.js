@@ -1,6 +1,7 @@
 import React, { useContext, useEffect} from 'react';
 import { useHistory } from 'react-router';
 import {Row, Col, Button} from 'reactstrap'
+import { AttendeeContext } from '../../providers/AttendeeProvider';
 import { GroupContext } from '../../providers/GroupProvider';
 import UnassignedAttendeeList from '../Attendees/UnassignedAttendees';
 
@@ -12,6 +13,7 @@ import GroupList from './GroupList';
 
 const GroupOverview = () => {
     const {displayGroupId, groups} = useContext(GroupContext);
+    const{ attendees } = useContext(AttendeeContext)
 
     const history = useHistory();
 

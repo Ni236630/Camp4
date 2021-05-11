@@ -54,12 +54,20 @@ namespace Camp4.Repositories
                     DbUtils.AddParameter(cmd, "@Id", id);
 
                     UserProfile userProfile = null;
+                    
 
                     var reader = cmd.ExecuteReader();
 
                     if (reader.Read())
                     {
                         userProfile = NewUserProfileFromDb(reader);
+      
+                            userProfile.group = new Group
+                            {
+                               Name = DbUtils.GetString(reader, "name"),
+                                
+                            };
+                        
                     }
                     reader.Close();
 
@@ -137,8 +145,10 @@ namespace Camp4.Repositories
                 {
                     cmd.CommandText = @"
                         UPDATE UserProfile
-                            SET UserTypeId = @UserTypeId
+                            SET UserRoleId = @UserRole, firstName = @FirstName, lastName = @LastName
                         WHERE Id = @Id";
+                    DbUtils.AddParameter(cmd, "@FirstName", userProfile.FirstName);
+                    DbUtils.AddParameter(cmd, "@LastName", userProfile.LastName);
                     DbUtils.AddParameter(cmd, @"UserRole", userProfile.UserRoleId);
                     DbUtils.AddParameter(cmd, "@Id", userProfile.Id);
 
@@ -164,6 +174,7 @@ namespace Camp4.Repositories
                 EmergencyContactId = DbUtils.GetInt(reader, "emergencyContactId"),
                 BerthId = DbUtils.GetInt(reader, "berthId"),
                 GroupId = DbUtils.GetInt(reader, "groupId"),
+               
                 //UserType = new UserType()
                 //{
                 //    Id = DbUtils.GetInt(reader, "UserTypeId"),

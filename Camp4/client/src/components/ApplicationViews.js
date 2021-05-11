@@ -8,6 +8,8 @@ import PersonnelOverview from './OverViews/PersonnelOverview';
 import NewGroup from "./Groups/NewGroupForm";
 import Login from "./Login";
 import Register from "./Register";
+import NewAttendee from "./Attendees/NewAttendee";
+import EditUser from "./UserProfile/EditUserProfile";
 
 
 
@@ -31,6 +33,10 @@ export default function ApplicationViews() {
 
         <Route path="/editGroup/:id"  exact>
           {isLoggedIn ? <GroupEditForm /> : <Redirect to="/login" />}
+        </Route>
+
+        <Route path="/editUser/:id"  exact>
+          {isLoggedIn ? <EditUser /> : <Redirect to="/login" />}
         </Route>
 
         <Route path="/personnel" exact>

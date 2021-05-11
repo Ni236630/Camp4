@@ -33,9 +33,18 @@ namespace Camp4.Controllers
             return Ok(_attendeeRepository.GetByGroup(id));
         }
 
+        [HttpGet("{id}")]
+        public IActionResult GetById(int id)
+        {
+            return Ok(_attendeeRepository.GetById(id));
+        }
+
         [HttpPost]
         public IActionResult AddAttendee(Attendee attendee)
         {
+            attendee.GroupId = 1;
+            attendee.BerthId = 1;
+            attendee.EmergencyContactId = 1;
             _attendeeRepository.Add(attendee);
             return CreatedAtAction("AddAttendee", new { id = attendee.Id }, attendee);
         }

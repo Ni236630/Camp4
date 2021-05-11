@@ -11,7 +11,7 @@ const AttendeeList = () => {
     },[])
 
     return(
-        <div>
+        <div >
          {
              attendees.map((a)=>{
                  return <AttendeeCard key={a.id} attendee={a} />
